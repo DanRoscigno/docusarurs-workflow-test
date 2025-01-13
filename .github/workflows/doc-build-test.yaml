@@ -16,6 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 21
+          cache-dependency-path: website/yarn.lock
           cache: yarn
 
       - name: Use known package.json and yarn.lock
