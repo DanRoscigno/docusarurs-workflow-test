@@ -14,9 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        working-directory: website
         with:
           node-version: 21
+          cache-dependency-path: website/yarn.lock
           cache: yarn
 
       - name: Use known package.json and yarn.lock
