@@ -1,0 +1,32 @@
+name: Test deployment
+
+on:
+  pull_request:
+    branches:
+      - main
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+jobs:
+  test-deploy:
+    name: Test deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 21
+          cache: yarn
+
+      - name: Use known package.json and yarn.lock
+        run: |
+            git fetch
+            git checkout origin/main -- website/package.json website/yarn.lock
+
+      - name: Install dependencies
+        working-directory: website
+        run: yarn install --frozen-lockfile
+
+      - name: Test build website
+        working-directory: website
+        run: yarn build
